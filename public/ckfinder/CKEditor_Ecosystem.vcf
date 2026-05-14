@@ -1,0 +1,10 @@
+BEGIN:VCARD
+VERSION;TYPE=WORK:3.0
+FN;CHARSET=UTF-8:CKSource
+N;CHARSET=UTF-8:CKSource;;;;
+PROFILE:VCARD
+ADR;CHARSET=UTF-8:;;ul. Slominskiego 15/508;Warsaw;;00-195;Poland
+EMAIL:info@cksource.com
+ORG;CHARSET=UTF-8:CKSource sp. z.o.o. sp.k.
+URL:https://ckeditor.com
+END:VCARD

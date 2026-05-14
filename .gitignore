@@ -1,0 +1,38 @@
+.env.backup
+.env.production
+.phpunit.result.cache
+
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/vendor
+
+# Laravel runtime
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/framework/testing/*
+/storage/logs/*
+!/storage/framework/cache/.gitkeep
+!/storage/framework/sessions/.gitkeep
+!/storage/framework/views/.gitkeep
+!/storage/framework/testing/.gitkeep
+!/storage/logs/.gitkeep
+
+# User-uploaded content (PDF/docs) — exclude actual files but keep folder structure
+/public/files/*
+!/public/files/.gitkeep
+
+# CKFinder/CKEditor user uploads — exclude actual files but keep folder structure
+/public/ckfinder/userfiles/*
+!/public/ckfinder/userfiles/.gitkeep
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea
+.vscode
+*.swp

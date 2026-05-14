@@ -1,0 +1,82 @@
+/*====================================================================*/
+/*  GENERAL
+/*====================================================================*/
+body {
+  margin: 0;
+  padding: 0;
+  background: #edf1f4;
+  font-family: "Montserrat", sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+a {
+  color: #1d3783;
+}
+a:hover,
+a:focus {
+  color: #уауауа;
+  text-decoration: none;
+  outline: none;
+}
+
+button {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+ul {
+  margin: 0px;
+  padding: 0px;
+}
+li {
+  list-style: none;
+}
+
+*::-moz-selection {
+  background: #444;
+  color: #fff;
+  text-shadow: none;
+}
+::-moz-selection {
+  background: #444;
+  color: #fff;
+  text-shadow: none;
+}
+::selection {
+  background: #444;
+  color: #fff;
+  text-shadow: none;
+}
+*::-webkit-input-placeholder {
+  color: #cccccc;
+  font-size: 14px;
+  opacity: 1;
+}
+*:-ms-input-placeholder {
+  color: #cccccc;
+  font-size: 14px;
+  opacity: 1;
+}
+*::-ms-input-placeholder {
+  color: #cccccc;
+  font-size: 14px;
+  opacity: 1;
+}
+*::placeholder {
+  color: #cccccc;
+  font-size: 14px;
+  opacity: 1;
+}
+
+.container {
+  max-width: 1230px;
+}
+.container-fluid {
+  max-width: 1230px;
+}
+.items{
+  /*margin-bottom: 50px !important */
+}
