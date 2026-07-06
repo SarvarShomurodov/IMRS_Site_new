@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="csrf-token" content="{{ csrf_token() }}">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <title>@yield('title', 'IMRS — Makroiqtisodiy va Hududiy Tadqiqotlar Instituti')</title>
 
 <link rel="stylesheet" href="{{ asset('assets/css/vendor.css') }}">

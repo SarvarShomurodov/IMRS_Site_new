@@ -8,6 +8,9 @@
         <title>ifmr.uz Админ панель</title>
         <meta content="Responsive admin theme build on top of Bootstrap 4" name="description" />
         <meta content="Themesbrand" name="author" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="shortcut icon" href="{{ asset('administrators/assets/images/favicon.ico') }}">
 
         <link href="{{ asset('administrators/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />

@@ -117,15 +117,15 @@
           <ul class="jsite-articles is-grid-mode" id="jsiteArticles">
             @foreach($articles as $a)
               @php
-                $title   = $a->title_publish ?: $a->title_orig;
-                $excerpt = (string) ($a->description ?? '');
+                $title   = $a->pubTitle();
+                $excerpt = $a->pubDescription();
                 $excerptShort = \Illuminate\Support\Str::limit(strip_tags($excerpt), 180);
                 $authorName = $a->author ? $a->author->fullName() : '—';
                 $pubDate = $a->publish_date ?: $a->updated_at;
                 $year    = $pubDate ? $pubDate->format('Y') : '';
                 $dateD   = $pubDate ? $pubDate->locale($loc)->isoFormat('YYYY · D MMM') : '';
                 $tagsArr = is_array($a->tags) ? $a->tags : [];
-                $cover   = $a->cover ? asset('storage/' . $a->cover) : null;
+                $cover   = $a->pubCover() ? asset('storage/' . $a->pubCover()) : null;
                 $cat     = $a->category ?: '—';
               @endphp
               <li class="jsite-article"

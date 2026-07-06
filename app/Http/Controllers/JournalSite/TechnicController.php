@@ -227,27 +227,17 @@ class TechnicController extends Controller
             return back()->with('error', __('journal.tec.invalid_status'));
         }
 
-        $data = $request->validate([
-            'title_publish' => ['required', 'string', 'min:8', 'max:255'],
-            'description'   => ['required', 'string', 'min:30', 'max:500'],
-            'publish_date'  => ['required', 'date'],
-            'cover'         => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:5120'], // 5 MB
-        ]);
-
-        // Store cover image
-        $coverFile = $request->file('cover');
-        $coverName = 'cover-'.$article->id.'-'.time().'-'.Str::random(8).'.'.$coverFile->getClientOriginalExtension();
-        $coverPath = $coverFile->storeAs('journal/covers', $coverName, 'public');
+        $data = $request->validate($this->publishRules());
 
         $from = $article->status;
-        $article->update([
-            'status'        => JournalArticle::ST_PUBLISHED,
-            'title_publish' => $data['title_publish'],
-            'description'   => $data['description'],
-            'publish_date'  => $data['publish_date'],
-            'cover'         => $coverPath,
-            'technic_id'    => $user->id,
-        ]);
+        $update = [
+            'status'       => JournalArticle::ST_PUBLISHED,
+            'publish_date' => $data['publish_date'],
+            'technic_id'   => $user->id,
+        ];
+        $update += $this->collectLocalizedFields($request, $article, $data);
+
+        $article->update($update);
 
         JournalHistory::create([
             'article_id'  => $article->id,
@@ -259,6 +249,126 @@ class TechnicController extends Controller
 
         return redirect()->route('journal.technic.publish_queue')
             ->with('success', __('journal.tec.published_msg'));
+    }
+
+    /* ── Ko'p tilli nashr — validatsiya va yig'ish yordamchilari ── */
+
+    /** Har bir til uchun ixtiyoriy maydonlar (hech biri majburiy emas) */
+    private function publishRules(): array
+    {
+        $rules = ['publish_date' => ['required', 'date']];
+
+        foreach (JournalArticle::LOCALES as $l) {
+            $rules["title_publish_$l"] = ['nullable', 'string', 'min:8', 'max:255'];
+            $rules["description_$l"]   = ['nullable', 'string', 'min:30', 'max:500'];
+            $rules["cover_$l"]         = ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:5120']; // 5 MB
+        }
+
+        return $rules;
+    }
+
+    /**
+     * Har bir til uchun title/description/cover qiymatlarini yig'adi.
+     * Cover faqat yangi fayl yuklansa yangilanadi (eskisi o'chiriladi),
+     * aks holda mavjud qiymat saqlanib qoladi.
+     */
+    private function collectLocalizedFields(Request $request, JournalArticle $article, array $data): array
+    {
+        $fields = [];
+
+        foreach (JournalArticle::LOCALES as $l) {
+            $fields["title_publish_$l"] = $data["title_publish_$l"] ?? null;
+            $fields["description_$l"]   = $data["description_$l"] ?? null;
+
+            if ($request->hasFile("cover_$l")) {
+                $old = $article->{"cover_$l"};
+                if ($old && Storage::disk('public')->exists($old)) {
+                    Storage::disk('public')->delete($old);
+                }
+                $file = $request->file("cover_$l");
+                $name = 'cover-'.$article->id.'-'.$l.'-'.time().'-'.Str::random(8).'.'.$file->getClientOriginalExtension();
+                $fields["cover_$l"] = $file->storeAs('journal/covers', $name, 'public');
+            }
+        }
+
+        return $fields;
+    }
+
+    /* ── Edit published article (form) ──────────────────────── */
+
+    public function editPublished(int $id)
+    {
+        $user = Auth::guard('journal')->user();
+        $article = JournalArticle::with('author')->findOrFail($id);
+
+        if (!$article->isPublished()) {
+            return redirect()->route('journal.technic.all', ['status' => JournalArticle::ST_PUBLISHED])
+                ->with('error', __('journal.tec.invalid_status'));
+        }
+
+        return view('client.journal_site.technic.edit', compact('user', 'article'));
+    }
+
+    /* ── Update published article ───────────────────────────── */
+
+    public function updatePublished(Request $request, int $id)
+    {
+        $user = Auth::guard('journal')->user();
+        $article = JournalArticle::findOrFail($id);
+
+        if (!$article->isPublished()) {
+            return back()->with('error', __('journal.tec.invalid_status'));
+        }
+
+        $data = $request->validate($this->publishRules());
+
+        $update = ['publish_date' => $data['publish_date']];
+        $update += $this->collectLocalizedFields($request, $article, $data);
+
+        $article->update($update);
+
+        JournalHistory::create([
+            'article_id'  => $article->id,
+            'user_id'     => $user->id,
+            'action'      => 'published_edited',
+            'from_status' => JournalArticle::ST_PUBLISHED,
+            'to_status'   => JournalArticle::ST_PUBLISHED,
+        ]);
+
+        return redirect()->route('journal.technic.all', ['status' => JournalArticle::ST_PUBLISHED])
+            ->with('success', __('journal.tec.updated_msg'));
+    }
+
+    /* ── Delete published article ───────────────────────────── */
+
+    public function destroy(int $id)
+    {
+        $article = JournalArticle::findOrFail($id);
+
+        if (!$article->isPublished()) {
+            return back()->with('error', __('journal.tec.invalid_status'));
+        }
+
+        // Bog'liq fayllarni o'chiramiz (DB yozuvlari cascade bilan o'chadi)
+        $covers = array_filter([
+            $article->cover,
+            $article->cover_uz,
+            $article->cover_ru,
+            $article->cover_en,
+        ]);
+        foreach ($covers as $cover) {
+            if (Storage::disk('public')->exists($cover)) {
+                Storage::disk('public')->delete($cover);
+            }
+        }
+        if ($article->file_path && Storage::disk('public')->exists($article->file_path)) {
+            Storage::disk('public')->delete($article->file_path);
+        }
+
+        $article->delete();
+
+        return redirect()->route('journal.technic.all', ['status' => JournalArticle::ST_PUBLISHED])
+            ->with('success', __('journal.tec.deleted_msg'));
     }
 
     /* ── File download ──────────────────────────────────────── */

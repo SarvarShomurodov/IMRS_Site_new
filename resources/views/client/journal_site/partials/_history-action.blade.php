@@ -11,5 +11,6 @@
   @case('moderator_final_approved') @lang('journal.mod.action_final_approved') @break
   @case('moderator_final_rejected') @lang('journal.mod.action_final_rejected') @break
   @case('published')                @lang('journal.tec.action_published') @break
+  @case('published_edited')         @lang('journal.tec.action_published_edited') @break
   @default {{ $action }}
 @endswitch

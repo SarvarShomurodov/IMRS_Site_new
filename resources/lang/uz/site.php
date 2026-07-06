@@ -44,7 +44,7 @@ return [
     'photogallery'            => "Fotogalereya",
     'videogallery'            => "Videogalereya",
 
-    'publications'            => "Nashrlar",
+    'publications'            => "Tadqiqotlar",
     'articles_thesis'         => "Maqolalar va tezislar",
     'sectoral_review'         => "Tarmoqlar bo'yicha sharh",
     'macroeconomy'            => "Makroiqtisodiyot",
@@ -74,6 +74,7 @@ return [
     'hero_cta_pubs'           => "Nashrlar",
     'hero_cta_news'           => "Yangiliklar",
     'hero_cta_contact'        => "Murojaat",
+    'hero_to_news'            => "Yangiliklarga o'tish",
 
     'stat_experience'         => "Yillik tajriba",
     'stat_publications'       => "Ilmiy nashr",

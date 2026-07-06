@@ -20,7 +20,7 @@
 @endphp
 
 <!-- ── PAGE HERO ── -->
-<section class="page-hero" aria-labelledby="ph-h">
+<section class="page-hero" aria-labelledby="ph-h" {!! \App\Models\PageHero::style('page') !!}>
   <div class="container">
     <nav class="breadcrumb" aria-label="@lang('site.laws_breadcrumb_aria')">
       <a href="{{ url('/') }}">@lang('site.home_breadcrumb')</a>
@@ -179,7 +179,7 @@
 @else
 
 <!-- Sahifa topilmadi -->
-<section class="page-hero" aria-labelledby="ph-h">
+<section class="page-hero" aria-labelledby="ph-h" {!! \App\Models\PageHero::style('page') !!}>
   <div class="container">
     <nav class="breadcrumb">
       <a href="{{ url('/') }}">@lang('site.home_breadcrumb')</a>

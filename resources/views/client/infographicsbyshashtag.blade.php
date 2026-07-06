@@ -14,7 +14,7 @@
 @endphp
 
 <!-- ── PAGE HERO ── -->
-<section class="page-hero" aria-labelledby="ph-h">
+<section class="page-hero" aria-labelledby="ph-h" {!! \App\Models\PageHero::style('infographicsbyshashtag') !!}>
   <div class="container">
     <nav class="breadcrumb" aria-label="Breadcrumb">
       <a href="{{ url('/') }}">@lang('site.home_breadcrumb')</a>

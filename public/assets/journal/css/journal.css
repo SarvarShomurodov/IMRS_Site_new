@@ -21,6 +21,7 @@
   --bg:      #07121e; --bg2: #0b1a2b; --bg3: #0f2035;
   --card:    #0f2035; --card-h: #142840;
   --bdr:     rgba(255,255,255,.07); --bdr-h: rgba(59,130,196,.4);
+  --bord:    rgba(255,255,255,.07);
   --t1: #ddeaf7; --t2: #6a92b8; --t3: #3a5878;
   --nav-bg:  rgba(7,18,30,.88);
   --accent:  var(--blue-light);
@@ -30,6 +31,7 @@
   --bg:      #f0f7fd; --bg2: #ffffff; --bg3: #e4f0fa;
   --card:    #ffffff; --card-h: #f5faff;
   --bdr:     rgba(26,74,122,.09); --bdr-h: rgba(26,74,122,.28);
+  --bord:    #e5e3dc;
   --t1: #0d1e30; --t2: #3a5878; --t3: #7a9ab8;
   --nav-bg:  rgba(240,247,253,.92);
   --accent:  var(--blue-dark);
@@ -127,6 +129,26 @@ img { display: block; }
   color: var(--t2);
   font-weight: 400;
   letter-spacing: .3px;
+}
+/* Logo (assets/img dark/light) */
+.jsite-logo-img { height: 38px; width: auto; display: block; transition: opacity .25s ease; }
+.jsite-brand:hover .jsite-logo-img { opacity: .86; }
+.jsite-logo-dark { display: none; }
+[data-theme="dark"] .jsite-logo-light { display: none; }
+[data-theme="dark"] .jsite-logo-dark { display: block; }
+
+/* Ixcham "IMRS" belgisi — faqat mobilda (keng logo o'rniga) */
+.jsite-brand-mini {
+  display: none;
+  background: #d6262e;
+  color: #fff;
+  font-family: var(--sans-ui);
+  font-weight: 800;
+  font-size: .92rem;
+  letter-spacing: .5px;
+  padding: .28rem .5rem;
+  border-radius: 6px;
+  line-height: 1;
 }
 
 /* Search */
@@ -772,7 +794,7 @@ img { display: block; }
 .jsite-article-cover {
   position: relative;
   display: block;
-  background: var(--blue-dark);
+  background: var(--bg3);
   overflow: hidden;
   border-radius: 4px;
   transition: transform var(--tr), box-shadow var(--tr);
@@ -780,7 +802,7 @@ img { display: block; }
 .jsite-article-cover img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: transform .4s var(--ease);
 }
 .jsite-article-cover:hover img { transform: scale(1.05); }
@@ -907,6 +929,7 @@ img { display: block; }
   padding-right: 0;
   margin-bottom: 1.1rem;
 }
+.jsite-ftr-brand-col .jsite-logo-img { height: 46px; }
 .jsite-ftr-desc {
   margin: 0 0 .85rem;
   max-width: 360px;
@@ -984,13 +1007,16 @@ img { display: block; }
 }
 @media (max-width: 720px) {
   .jsite-container   { padding: 0 1rem; }
-  .jsite-hdr-top-row { gap: .65rem; height: 56px; }
-  .jsite-hdr-actions { gap: .5rem; padding-left: .5rem; }
+  .jsite-hdr-top-row { gap: .5rem; height: 56px; }
+  .jsite-hdr-actions { gap: .4rem; padding-left: 0; border-left: none; margin-left: auto; }
   .jsite-btn-ghost span { display: none; }
   .jsite-cta span    { display: none; }
   .jsite-cta         { padding: .5rem .7rem; }
-  .jsite-brand       { padding-right: .65rem; margin-right: 0; }
+  .jsite-brand       { padding-right: 0; margin-right: 0; border-right: none; min-width: 0; }
   .jsite-brand-text  { display: none; }
+  .jsite-logo-img    { display: none; }            /* keng logo — yashirin */
+  .jsite-brand-mini  { display: inline-block; }    /* ixcham IMRS belgisi */
+  .jsite-lang a      { padding: .26rem .5rem; font-size: .68rem; }
   .jsite-list-grid   { grid-template-columns: 1fr; }
   .jsite-side        { order: 2; }
   .jsite-articles.is-list-mode .jsite-article { grid-template-columns: 1fr; gap: 1rem; }
@@ -1001,6 +1027,17 @@ img { display: block; }
   .jsite-issue-tag   { display: none; }
   .jsite-ftr-grid    { grid-template-columns: 1fr; gap: 2rem; }
   .jsite-ftr-bot     { flex-direction: column; gap: .5rem; }
+}
+
+/* ── Juda kichik telefonlar — header yanada ixcham ── */
+@media (max-width: 480px) {
+  .jsite-hdr-top-row { gap: .4rem; }
+  .jsite-brand-mini  { font-size: .85rem; padding: .26rem .45rem; }
+  .jsite-hdr-actions { gap: .3rem; }
+  .jsite-cta         { padding: .45rem .55rem; }
+  .jsite-lang        { padding: 1px; }
+  .jsite-lang a      { padding: .24rem .42rem; font-size: .64rem; }
+  .jsite-ico-btn     { width: 34px; height: 34px; }
 }
 
 /* ── Real-data additions ─────────────────────────────────────── */
@@ -1543,7 +1580,7 @@ img { display: block; }
   border: 1px solid var(--bord, #e5e3dc);
   border-radius: 14px;
   overflow: hidden;
-  background: #fff;
+  background: var(--card);
   box-shadow: 0 14px 38px rgba(7, 18, 30, .08);
   isolation: isolate;
 }
@@ -1579,7 +1616,7 @@ img { display: block; }
   width: 32px; height: 32px;
   border-radius: 8px;
   border: 1px solid var(--bord, #e5e3dc);
-  background: #fff;
+  background: var(--card);
   color: var(--blue-mid, #2563a8);
   text-decoration: none;
   flex-shrink: 0;
@@ -1720,7 +1757,7 @@ img { display: block; }
 .jsite-issue-card{
   display: flex;
   flex-direction: column;
-  background: #fff;
+  background: var(--card);
   border: 1px solid var(--bord, #e5e3dc);
   border-radius: 14px;
   overflow: hidden;
@@ -1859,7 +1896,7 @@ img { display: block; }
    MODERATOR — Issues panel (upload form + list)
 ═══════════════════════════════════════════════════════════ */
 .jsite-issues-form-wrap{
-  background: #fff;
+  background: var(--card);
   border: 1px solid var(--bord, #e5e3dc);
   border-radius: 14px;
   padding: 1.6rem 1.6rem 1.4rem;
@@ -1904,7 +1941,7 @@ img { display: block; }
   border: 1px solid var(--bord, #e5e3dc);
   border-radius: 9px;
   font-size: .92rem;
-  background: #fff;
+  background: var(--card);
   color: var(--t1, #1a1a1a);
   transition: border-color .2s, box-shadow .2s;
 }
@@ -1919,7 +1956,7 @@ img { display: block; }
   border: 1px dashed var(--bord, #e5e3dc);
   border-radius: 9px;
   font-size: .82rem;
-  background: rgba(248,250,253,.5);
+  background: var(--bg3);
   cursor: pointer;
   transition: border-color .2s, background .2s;
 }
@@ -1938,7 +1975,7 @@ img { display: block; }
 }
 
 .jsite-issues-list-wrap{
-  background: #fff;
+  background: var(--card);
   border: 1px solid var(--bord, #e5e3dc);
   border-radius: 14px;
   padding: 1.4rem 1.6rem 1.6rem;
@@ -1990,12 +2027,12 @@ img { display: block; }
   padding: .85rem;
   border: 1px solid var(--bord, #e5e3dc);
   border-radius: 12px;
-  background: rgba(248,250,253,.5);
+  background: var(--bg3);
   transition: border-color .2s, background .2s;
 }
 .jsite-issues-mod-row:hover{
   border-color: rgba(201,169,97,.35);
-  background: #fff;
+  background: var(--card);
 }
 .jsite-issues-mod-cover{
   width: 70px; height: 90px;
@@ -2045,7 +2082,7 @@ img { display: block; }
   border-radius: 9px;
   display: inline-flex; align-items: center; justify-content: center;
   border: 1px solid var(--bord, #e5e3dc);
-  background: #fff;
+  background: var(--card);
   color: var(--t2, #555);
   cursor: pointer;
   text-decoration: none;
@@ -2121,7 +2158,7 @@ img { display: block; }
   padding: 0 .55rem;
   border: 1px solid var(--bord, #e5e3dc);
   border-radius: 9px;
-  background: #fff;
+  background: var(--card);
   color: var(--t1, #1a1a1a);
   font-size: .85rem;
   font-weight: 600;
@@ -2142,9 +2179,117 @@ img { display: block; }
   cursor: default;
 }
 .jsite-pager-btn.is-disabled{
-  background: rgba(248,250,253,.5);
+  background: var(--bg3);
   color: var(--t3, #888);
   border-color: var(--bord, #e5e3dc);
   cursor: not-allowed;
   opacity: .55;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   PREMIUM EFFECTS — 2026 (global, barcha journal_site sahifalari)
+   Nozik, professional: scroll-reveal, sheen, progress, header shadow.
+   Hammasi `prefers-reduced-motion` bilan himoyalangan.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Yetishmayotgan token (ko'p joyda fallback bilan ishlatilgan) */
+:root { --gold: #c9a961; }
+
+/* ── Sahifa silliq paydo bo'lishi (faqat opacity → layout/transform xavfsiz) ── */
+@media (prefers-reduced-motion: no-preference) {
+  #jsite-main,
+  .jsite-auth-main {
+    animation: jsite-fade-in .55s var(--ease) both;
+  }
+}
+@keyframes jsite-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Scroll-reveal: elementlar ko'rinish maydoniga kirganda ko'tariladi ──
+   JS `.jsite-reveal` klassini qo'shadi (JS bo'lmasa hamma narsa ko'rinadi),
+   `.is-in` bo'lganda animatsiya, so'ng JS klasslarni olib tashlaydi → hover tabiiy. */
+.jsite-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .7s var(--ease), transform .7s var(--ease);
+  transition-delay: var(--rd, 0ms);
+  will-change: opacity, transform;
+}
+.jsite-reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Tepa scroll-progress chizig'i ── */
+.jsite-scroll-progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--blue-dark), var(--blue-light), var(--gold));
+  box-shadow: 0 1px 6px rgba(37,99,168,.35);
+  z-index: 999;
+  pointer-events: none;
+  will-change: transform;
+  transition: transform .08s linear;
+}
+
+/* ── Header: aylantirilganda nozik soya ── */
+.jsite-hdr { transition: background var(--tr), box-shadow var(--tr), border-color var(--tr); }
+.jsite-hdr.is-scrolled {
+  box-shadow: 0 10px 34px -16px rgba(7,18,30,.28);
+  border-bottom-color: var(--bdr-h);
+}
+
+/* ── Asosiy tugmalarda yorug'lik yugurishi (sheen) ── */
+.jsite-btn-primary {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.jsite-btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 38%, rgba(255,255,255,.30) 50%, transparent 62%);
+  transform: translateX(-130%);
+  transition: transform .75s var(--ease);
+  pointer-events: none;
+  z-index: 1;
+}
+.jsite-btn-primary:hover::after { transform: translateX(130%); }
+
+/* ── Nozik fokus halqasi (klaviatura navigatsiyasi) ── */
+.jsite a:focus-visible,
+.jsite button:focus-visible,
+.jsite input:focus-visible,
+.jsite select:focus-visible {
+  outline: 2px solid var(--blue-mid);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Premium scrollbar (faqat journal_site ichida) ── */
+body.jsite::-webkit-scrollbar,
+.jsite ::-webkit-scrollbar { width: 11px; height: 11px; }
+body.jsite::-webkit-scrollbar-track,
+.jsite ::-webkit-scrollbar-track { background: transparent; }
+body.jsite::-webkit-scrollbar-thumb,
+.jsite ::-webkit-scrollbar-thumb {
+  background: var(--bdr-h);
+  border-radius: 999px;
+  border: 3px solid var(--bg);
+}
+body.jsite::-webkit-scrollbar-thumb:hover,
+.jsite ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ── Harakatni kamaytirish rejimi: hamma effektni o'chirish ── */
+@media (prefers-reduced-motion: reduce) {
+  .jsite-reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .jsite-scroll-progress { display: none !important; }
+  .jsite-btn-primary::after { display: none !important; }
+  #jsite-main, .jsite-auth-main { animation: none !important; }
 }

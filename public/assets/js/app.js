@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var sv = window.scrollY;
       hdr.classList.toggle('sc', sv > 30);
       var max = document.body.scrollHeight - window.innerHeight;
-      pbar.style.width = (sv / max * 100) + '%';
+      pbar.style.width = (max > 0 ? Math.min(100, Math.max(0, sv / max * 100)) : 0) + '%';
       stb.classList.toggle('sh', sv > 350);
     }, { passive: true });
     stb.addEventListener('click', function(){ window.scrollTo({ top:0, behavior:'smooth' }); });

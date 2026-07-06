@@ -42,7 +42,19 @@
 @endphp
 
 <!-- ── PRESS MASTHEAD ── -->
-<section class="prx-masthead" aria-labelledby="prx-h">
+@php
+  $pressVideo = \App\Models\PageHero::video('press');
+  $pressImg   = \App\Models\PageHero::url('press');
+@endphp
+<section class="prx-masthead @if($pressVideo || $pressImg) has-media @endif @if($pressVideo) has-video @endif"
+         aria-labelledby="prx-h"
+         @if($pressImg && !$pressVideo) style="--ph-bg:url('{{ $pressImg }}')" @endif>
+  @if($pressVideo)
+    <video class="prx-mh-video" autoplay muted loop playsinline @if($pressImg) poster="{{ $pressImg }}" @endif>
+      <source src="{{ $pressVideo }}">
+    </video>
+    <span class="prx-mh-media-overlay" aria-hidden="true"></span>
+  @endif
   <div class="container">
     <nav class="breadcrumb" aria-label="Breadcrumb">
       <a href="{{ url('/') }}">@lang('site.home_breadcrumb')</a>

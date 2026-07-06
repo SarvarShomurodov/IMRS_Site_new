@@ -14,7 +14,19 @@
 @endphp
 
 <!-- ── SCIENCE MASTHEAD ── -->
-<section class="prx-masthead" aria-labelledby="sci-h">
+@php
+  $sciVideo = \App\Models\PageHero::video('science');
+  $sciImg   = \App\Models\PageHero::url('science');
+@endphp
+<section class="prx-masthead @if($sciVideo || $sciImg) has-media @endif @if($sciVideo) has-video @endif"
+         aria-labelledby="sci-h"
+         @if($sciImg && !$sciVideo) style="--ph-bg:url('{{ $sciImg }}')" @endif>
+  @if($sciVideo)
+    <video class="prx-mh-video" autoplay muted loop playsinline @if($sciImg) poster="{{ $sciImg }}" @endif>
+      <source src="{{ $sciVideo }}">
+    </video>
+    <span class="prx-mh-media-overlay" aria-hidden="true"></span>
+  @endif
   <div class="container">
     <nav class="breadcrumb" aria-label="Breadcrumb">
       <a href="{{ url('/') }}">@lang('site.home_breadcrumb')</a>

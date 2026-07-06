@@ -208,11 +208,26 @@ return [
         'publish_date'       => 'Nashr sanasi',
         'btn_publish'        => 'Saytga chiqarish',
         'published_msg'      => 'Maqola saytga muvaffaqiyatli chiqarildi',
+        'multilang_help'     => 'Sarlavha, tavsif va muqovani 3 tilda kiritishingiz mumkin. Hech biri majburiy emas — faqat bitta tilda to\'ldirsangiz ham bo\'ladi. Saytda foydalanuvchi tanlagan tilga mos kontent, agar u til bo\'sh bo\'lsa — mavjud boshqa til ko\'rsatiladi.',
+        'lang_filled'        => 'Bu til to\'ldirilgan',
+
+        // Edit / delete published
+        'edit_published'     => 'Nashrni tahrirlash',
+        'edit_published_sub' => 'Saytga chiqarilgan maqolaning sarlavhasi, tavsifi, sanasi va muqovasini yangilang.',
+        'updated_msg'        => 'Nashr muvaffaqiyatli yangilandi',
+        'deleted_msg'        => 'Nashr o\'chirildi',
+        'delete_confirm'     => 'Ushbu nashrni o\'chirishni tasdiqlaysizmi? Bu amalni ortga qaytarib bo\'lmaydi.',
+        'cover_optional'     => 'ixtiyoriy (yangilamasangiz, joriy muqova qoladi)',
+        'current_cover'      => 'Joriy muqova',
+        'btn_edit'           => 'Tahrirlash',
+        'btn_delete'         => 'O\'chirish',
+        'btn_save'           => 'Saqlash',
 
         // Action history labels
         'action_approved'    => 'Texnik tasdiqladi',
         'action_rejected'    => 'Texnik rad etdi',
         'action_published'   => 'Saytga chiqarildi',
+        'action_published_edited' => 'Texnik nashrni tahrirladi',
         'action_revision_requested' => 'Texnik qayta ko\'rib chiqishga yubordi',
 
         // Plagiarism

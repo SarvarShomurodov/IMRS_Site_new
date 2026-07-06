@@ -24,11 +24,13 @@ class AppServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot()
-    {
-        if (env('APP_ENV') !== 'local') {
-            URL::forceScheme('https');
-        }
-
-        Paginator::useBootstrapFour();
+{
+    if (app()->environment('production')) {
+        URL::forceScheme('https');
     }
+
+    // Paginatsiya — Bootstrap markup (admin AdminLTE/Bootstrap CSS bilan styling bo'ladi).
+    // Journal panellari .jsite-admin-pagination CSS orqali shu markupga moslangan.
+    Paginator::useBootstrapFour();
+}
 }

@@ -25,8 +25,17 @@ class JournalArticle extends Model
         'category',
         'tags',
         'title_publish',
+        'title_publish_uz',
+        'title_publish_ru',
+        'title_publish_en',
         'description',
+        'description_uz',
+        'description_ru',
+        'description_en',
         'cover',
+        'cover_uz',
+        'cover_ru',
+        'cover_en',
         'publish_date',
         'views',
     ];
@@ -69,6 +78,48 @@ class JournalArticle extends Model
     public function isPublished(): bool
     {
         return $this->status === self::ST_PUBLISHED;
+    }
+
+    /* ── Ko'p tilli nashr maydonlari ─────────────────────────── */
+
+    public const LOCALES = ['uz', 'ru', 'en'];
+
+    /** Berilgan ustun uchun: joriy til → boshqa mavjud til → eski (neytral) ustun */
+    private function localized(string $base, ?string $locale = null): ?string
+    {
+        $locale = $locale ?: app()->getLocale();
+
+        $value = $this->{$base.'_'.$locale} ?? null;
+        if (filled($value)) {
+            return $value;
+        }
+
+        foreach (self::LOCALES as $l) {
+            $v = $this->{$base.'_'.$l} ?? null;
+            if (filled($v)) {
+                return $v;
+            }
+        }
+
+        return filled($this->{$base}) ? $this->{$base} : null;
+    }
+
+    /** Saytda chiqadigan sarlavha (oxirgi chorada title_orig'ga tushadi) */
+    public function pubTitle(?string $locale = null): string
+    {
+        return $this->localized('title_publish', $locale) ?: (string) $this->title_orig;
+    }
+
+    /** Tavsif (qisqacha) */
+    public function pubDescription(?string $locale = null): string
+    {
+        return (string) ($this->localized('description', $locale) ?? '');
+    }
+
+    /** Muqova rasmining storage yo'li (yo'q bo'lsa null) */
+    public function pubCover(?string $locale = null): ?string
+    {
+        return $this->localized('cover', $locale);
     }
 
     /* ── Relations ───────────────────────────────────────────── */

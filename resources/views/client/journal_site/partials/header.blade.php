@@ -28,9 +28,10 @@
   <div class="jsite-hdr-top">
     <div class="jsite-container jsite-hdr-top-row">
 
-      <a href="{{ route('journals') }}" class="jsite-brand" aria-label="IMRS Journal">
-        {{-- <img src="{{ asset('assets/img/logo-light.png') }}" alt="IMRS — Institute for Macroeconomic and Regional Studies" class="logo-img logo-img-light">
-        <img src="{{ asset('assets/img/logo-dark.png') }}" alt="IMRS — Institute for Macroeconomic and Regional Studies" class="logo-img logo-img-dark"> --}}
+      <a href="{{ route('index') }}" class="jsite-brand" aria-label="IMRS Journal">
+        <span class="jsite-brand-mini" aria-hidden="true">IMRS</span>
+        <img src="{{ asset('assets/img/logo-light.png') }}" alt="IMRS — Institute for Macroeconomic and Regional Studies" class="jsite-logo-img jsite-logo-light">
+        <img src="{{ asset('assets/img/logo-dark.png') }}" alt="IMRS — Institute for Macroeconomic and Regional Studies" class="jsite-logo-img jsite-logo-dark">
       </a>
 
       <form class="jsite-search" role="search" onsubmit="event.preventDefault();">

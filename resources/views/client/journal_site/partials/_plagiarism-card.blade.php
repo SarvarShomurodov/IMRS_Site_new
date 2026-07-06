@@ -4,7 +4,8 @@
 --}}
 @php
   $p = max(0, min(100, (int) $percent));
-  $tone = $p < 20 ? 'is-success' : ($p < 40 ? 'is-info' : ($p < 60 ? 'is-warn' : 'is-danger'));
+  // Orginallik foizi: yuqori = yaxshi (yashil), past = yomon (qizil)
+  $tone = $p >= 80 ? 'is-success' : ($p >= 60 ? 'is-info' : ($p >= 40 ? 'is-warn' : 'is-danger'));
 @endphp
 <section class="jsite-cab-block jsite-plagiarism-block {{ $tone }}">
   <div class="jsite-plagiarism-row">

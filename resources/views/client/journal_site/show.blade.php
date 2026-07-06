@@ -2,15 +2,15 @@
 
 @php
   $loc      = app()->getLocale();
-  $title    = $article->title_publish ?: $article->title_orig;
-  $cover    = $article->cover ? asset('storage/' . $article->cover) : null;
+  $title    = $article->pubTitle();
+  $cover    = $article->pubCover() ? asset('storage/' . $article->pubCover()) : null;
   $author   = $article->author ? $article->author->fullName() : '—';
   $workplace = $article->author->workplace ?? null;
   $pubDate  = $article->publish_date ?: $article->updated_at;
   $dateD    = $pubDate ? $pubDate->locale($loc)->isoFormat('YYYY · D MMM') : '';
   $tagsArr  = is_array($article->tags) ? $article->tags : [];
   $fileUrl  = $article->file_path ? asset('storage/' . $article->file_path) : null;
-  $description = (string) ($article->description ?? '');
+  $description = $article->pubDescription();
 @endphp
 
 @section('title', $title . ' — IMRS Journal')
@@ -144,8 +144,8 @@
             <ul class="jsite-related-list">
               @foreach($related as $r)
                 @php
-                  $rTitle = $r->title_publish ?: $r->title_orig;
-                  $rCover = $r->cover ? asset('storage/' . $r->cover) : null;
+                  $rTitle = $r->pubTitle();
+                  $rCover = $r->pubCover() ? asset('storage/' . $r->pubCover()) : null;
                   $rDate  = $r->publish_date ?: $r->updated_at;
                 @endphp
                 <li class="jsite-related-item">
@@ -178,7 +178,7 @@
                 <span class="jsite-pgnav-arrow">←</span>
                 <span class="jsite-pgnav-text">
                   <span class="jsite-pgnav-lbl">@lang('journal.show.prev')</span>
-                  <span class="jsite-pgnav-title">{{ $prev->title_publish ?: $prev->title_orig }}</span>
+                  <span class="jsite-pgnav-title">{{ $prev->pubTitle() }}</span>
                 </span>
               </a>
             @else
@@ -188,7 +188,7 @@
               <a class="jsite-pgnav-item jsite-pgnav-next" href="{{ route('journal', $next->id) }}">
                 <span class="jsite-pgnav-text">
                   <span class="jsite-pgnav-lbl">@lang('journal.show.next')</span>
-                  <span class="jsite-pgnav-title">{{ $next->title_publish ?: $next->title_orig }}</span>
+                  <span class="jsite-pgnav-title">{{ $next->pubTitle() }}</span>
                 </span>
                 <span class="jsite-pgnav-arrow">→</span>
               </a>

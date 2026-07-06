@@ -44,7 +44,7 @@ return [
     'photogallery'            => "Фотогалерея",
     'videogallery'            => "Видеогалерея",
 
-    'publications'            => "Публикации",
+    'publications'            => "Исследования",
     'articles_thesis'         => "Статьи и тезисы",
     'sectoral_review'         => "Отраслевые обзоры",
     'macroeconomy'            => "Макроэкономика",
@@ -74,6 +74,7 @@ return [
     'hero_cta_pubs'           => "Публикации",
     'hero_cta_news'           => "Новости",
     'hero_cta_contact'        => "Обратиться",
+    'hero_to_news'            => "Перейти к новостям",
 
     'stat_experience'         => "Лет опыта",
     'stat_publications'       => "Научных публикаций",

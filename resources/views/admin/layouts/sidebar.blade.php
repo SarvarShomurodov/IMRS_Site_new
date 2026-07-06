@@ -30,6 +30,10 @@
                 </li>
 
                 <li>
+                    <a href="{{url('/admin/page-heroes')}}" class="waves-effect {{ request()->is('admin/page-heroes') ? 'mm-actice' : '' }}"><i class="mdi mdi-image-area"></i><span> Фоны страниц </span></a>
+                </li>
+
+                <li>
                     <a href="javascript:void(0);" class="waves-effect {{ request()->is('admin/news')||request()->is('admin/news/create')||request()->is('admin/news/edit/*')||request()->is('admin/archives')||request()->is('admin/archives/create')||request()->is('admin/archives/edit/*') ? 'mm-actice' : '' }}"><i class="ion ion-md-paper"></i><span> Пресс-служба <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                     <ul class="submenu">
                         <li class="{{ request()->is('admin/archives')||request()->is('admin/archives/edit/*') ? 'mm-actice' : '' }}"><a href="{{url('/admin/archives')}}">Архивы (категории)</a></li>

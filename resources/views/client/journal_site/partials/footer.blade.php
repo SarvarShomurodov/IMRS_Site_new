@@ -5,9 +5,9 @@
     <div class="jsite-ftr-grid">
 
       <div class="jsite-ftr-col jsite-ftr-brand-col">
-        <a href="{{ route('journals') }}" class="jsite-brand">
-          <span class="jsite-brand-mark"><em>i</em></span>
-          <span class="jsite-brand-text">IMRS</span>
+        <a href="{{ route('index') }}" class="jsite-brand">
+          <img src="{{ asset('assets/img/logo-light.png') }}" alt="IMRS — Institute for Macroeconomic and Regional Studies" class="jsite-logo-img jsite-logo-light">
+          <img src="{{ asset('assets/img/logo-dark.png') }}" alt="IMRS — Institute for Macroeconomic and Regional Studies" class="jsite-logo-img jsite-logo-dark">
         </a>
         <p class="jsite-ftr-desc">@lang('journal.ftr.desc')</p>
         <p class="jsite-ftr-issn">@lang('journal.ftr.issn')</p>

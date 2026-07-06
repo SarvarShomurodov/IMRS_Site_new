@@ -2,7 +2,7 @@
 
 @section('content')
     <!-- ── PAGE HERO ── -->
-<section class="page-hero" aria-labelledby="ph-h">
+<section class="page-hero" aria-labelledby="ph-h" {!! \App\Models\PageHero::style('structure') !!}>
   <div class="container">
     <nav class="breadcrumb" aria-label="@lang('site.structure')">
       <a href="{{ url('/') }}">@lang('site.home_breadcrumb')</a>

@@ -300,6 +300,115 @@
     if (btn2) btn2.addEventListener('click', clearAll);
   }
 
+  /* ═══ PREMIUM EFFEKTLAR (global — barcha sahifalar) ═══ */
+
+  function prefersReducedMotion() {
+    return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+
+  // Scroll-reveal: elementlar ko'rinish maydoniga kirganda ko'tariladi
+  function initReveal() {
+    if (prefersReducedMotion() || !('IntersectionObserver' in window)) return;
+
+    var selectors = [
+      '.jsite-article', '.jsite-issue-card', '.jsite-related-item',
+      '.jsite-show-cover', '.jsite-show-meta', '.jsite-show-content',
+      '.jsite-pgnav-item', '.jsite-show-tags', '.jsite-show-related',
+      '.jsite-cab-stat', '.jsite-cab-quick-btn', '.jsite-cab-block',
+      '.jsite-cab-article', '.jsite-file-card', '.jsite-timeline-item',
+      '.jsite-mod-reviewer-card', '.jsite-rev-decision-card',
+      '.jsite-issues-mod-row', '.jsite-admin-stat', '.jsite-cab-table-wrap',
+      '.jsite-issues-form-wrap', '.jsite-issues-list-wrap',
+      '.jsite-panel-head', '.jsite-issues-head', '[data-reveal]'
+    ];
+
+    var els = [];
+    selectors.forEach(function (s) {
+      Array.prototype.forEach.call(document.querySelectorAll(s), function (el) {
+        if (els.indexOf(el) === -1) els.push(el);
+      });
+    });
+    if (!els.length) return;
+
+    // 1-bosqich: klass qo'shamiz (JS bo'lmasa hech narsa yashirilmaydi)
+    els.forEach(function (el) { el.classList.add('jsite-reveal'); });
+
+    // 2-bosqich: bir guruhdagi (ota-ona) elementlarga staggered kechikish
+    els.forEach(function (el) {
+      var idx = 0, p = el.previousElementSibling;
+      while (p) {
+        if (p.classList && p.classList.contains('jsite-reveal')) idx++;
+        p = p.previousElementSibling;
+      }
+      el.style.setProperty('--rd', (Math.min(idx, 7) * 70) + 'ms');
+    });
+
+    function reveal(el) {
+      if (!el.classList.contains('jsite-reveal') || el.classList.contains('is-in')) return;
+      el.classList.add('is-in');
+      var d = parseFloat(el.style.getPropertyValue('--rd')) || 0;
+      // Animatsiya tugagach klasslarni olib tashlaymiz → hover/transition tabiiy bo'ladi
+      setTimeout(function () {
+        el.classList.remove('jsite-reveal', 'is-in');
+        el.style.removeProperty('--rd');
+        el.style.removeProperty('will-change');
+      }, d + 950);
+    }
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        reveal(e.target);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+
+    els.forEach(function (el) { io.observe(el); });
+
+    // FAILSAFE: agar IntersectionObserver ishga tushmasa (masalan ba'zi
+    // headless/edge muhitlar), birinchi ekrandagi kontent ko'rinmay qolmasligi
+    // uchun ko'rinadigan qismdagi elementlarni majburan ochamiz. Pastdagilar
+    // odatdagidek scroll'da ochiladi.
+    setTimeout(function () {
+      var vh = window.innerHeight || document.documentElement.clientHeight || 0;
+      els.forEach(function (el) {
+        if (!el.classList.contains('jsite-reveal') || el.classList.contains('is-in')) return;
+        var r = el.getBoundingClientRect();
+        if (r.top < vh && r.bottom > 0) reveal(el);
+      });
+    }, 1100);
+  }
+
+  // Tepa progress chizig'i + header soyasi
+  function initScrollChrome() {
+    var hdr = document.querySelector('.jsite-hdr');
+    var bar = null;
+
+    if (!prefersReducedMotion()) {
+      bar = document.createElement('div');
+      bar.className = 'jsite-scroll-progress';
+      bar.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(bar);
+    }
+
+    var ticking = false;
+    function update() {
+      var st = window.pageYOffset || document.documentElement.scrollTop || 0;
+      if (bar) {
+        var h = (document.documentElement.scrollHeight - window.innerHeight);
+        var pct = h > 0 ? Math.min(st / h, 1) : 0;
+        bar.style.transform = 'scaleX(' + pct + ')';
+      }
+      if (hdr) hdr.classList.toggle('is-scrolled', st > 8);
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) { window.requestAnimationFrame(update); ticking = true; }
+    }, { passive: true });
+    update();
+  }
+
   /* ═══ INIT ═══ */
   function ready(fn) {
     if (document.readyState !== 'loading') fn();
@@ -312,6 +421,8 @@
     dom.activeFilters = document.getElementById('jsiteActiveFilters');
 
     initTheme();
+    initScrollChrome();
+    initReveal();
     if (dom.list) {
       loadArticles();
       readUrlIntoState();

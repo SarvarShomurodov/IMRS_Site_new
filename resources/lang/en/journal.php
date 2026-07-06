@@ -202,10 +202,25 @@ return [
         'publish_date'       => 'Publish date',
         'btn_publish'        => 'Publish to site',
         'published_msg'      => 'Article successfully published',
+        'multilang_help'     => 'You can enter the title, description and cover in 3 languages. None are required — filling just one language is fine. The site shows content in the selected language, falling back to an available language if it is empty.',
+        'lang_filled'        => 'This language is filled',
+
+        // Edit / delete published
+        'edit_published'     => 'Edit publication',
+        'edit_published_sub' => 'Update the title, description, date and cover of the published article.',
+        'updated_msg'        => 'Publication updated successfully',
+        'deleted_msg'        => 'Publication deleted',
+        'delete_confirm'     => 'Delete this publication? This action cannot be undone.',
+        'cover_optional'     => 'optional (current cover stays if not replaced)',
+        'current_cover'      => 'Current cover',
+        'btn_edit'           => 'Edit',
+        'btn_delete'         => 'Delete',
+        'btn_save'           => 'Save',
 
         'action_approved'    => 'Technical approved',
         'action_rejected'    => 'Technical rejected',
         'action_published'   => 'Published to site',
+        'action_published_edited' => 'Technical edited the publication',
         'action_revision_requested' => 'Technical sent for revision',
 
         // Plagiarism

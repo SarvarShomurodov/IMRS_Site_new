@@ -44,7 +44,7 @@ return [
     'photogallery'            => "Photo gallery",
     'videogallery'            => "Video gallery",
 
-    'publications'            => "Publications",
+    'publications'            => "Research",
     'articles_thesis'         => "Articles and abstracts",
     'sectoral_review'         => "Sectoral reviews",
     'macroeconomy'            => "Macroeconomy",
@@ -74,6 +74,7 @@ return [
     'hero_cta_pubs'           => "Publications",
     'hero_cta_news'           => "News",
     'hero_cta_contact'        => "Contact us",
+    'hero_to_news'            => "Go to news",
 
     'stat_experience'         => "Years of experience",
     'stat_publications'       => "Scientific publications",

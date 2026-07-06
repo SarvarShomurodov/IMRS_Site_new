@@ -15,72 +15,47 @@
       playsinline
       preload="auto"
     >
-      <source src="{{asset('assets/video/Taqdimot_cnv.mp4')}}" type="video/mp4">
+      <source src="{{asset('assets/video/Taqdimot_cnvTrim.mp4')}}" type="video/mp4">
     </video>
   </div>
   <div class="hero-video-overlay" aria-hidden="true"></div>
   <canvas id="hero-canvas"></canvas>
   <div class="hero-mesh"></div>
   <div class="hero-grid"></div>
+
+  <!-- Breadcrumb: video ustida doimiy turadi -->
+  <nav class="hero-crumb" aria-label="@lang('site.home')">
+    <div class="hero-crumb-inner">
+      <a href="{{ url('/') }}" class="hero-crumb-home" aria-label="@lang('site.home')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 3l9 6.5"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
+      </a>
+      <span class="hero-crumb-sep" aria-hidden="true">›</span>
+      <span class="hero-crumb-cur">@lang('site.home')</span>
+    </div>
+  </nav>
+
   <div class="container">
-    <div class="hero-inner">
-      <div>
-        <div class="hero-badge" data-aos="fade-up">
-          <div class="bp"></div>
-          @lang('site.hero_badge')
-        </div>
-        <h1 class="hero-title" id="hero-h" data-aos="fade-up" data-aos-delay="80">
+    <div class="hero-inner hero-inner--solo">
+      <div class="hero-title-wrap">
+        <h1 class="hero-title" id="hero-h">
           @lang('site.hero_title_1')<br><em>@lang('site.hero_title_2')</em><br>@lang('site.hero_title_3')
         </h1>
-        <p class="hero-desc" data-aos="fade-up" data-aos-delay="160">
+      </div>
+      <span class="hero-divider" aria-hidden="true"></span>
+      <div class="hero-rightcol">
+        <p class="hero-desc">
           @lang('site.hero_desc')
         </p>
-        <div class="hero-acts" data-aos="fade-up" data-aos-delay="220">
-          <a href="#publications" class="btn-p"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> @lang('site.hero_cta_pubs')</a>
-          <a href="#news" class="btn-g"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a4 4 0 0 1-4-4V6"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg> @lang('site.hero_cta_news')</a>
-          <a href="https://imrs.uz/contacts" class="btn-g" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> @lang('site.hero_cta_contact')</a>
-        </div>
-        <div class="hero-stats" data-aos="fade-up" data-aos-delay="300">
-          <div class="stat"><div class="snum"><span id="c1">0</span><span class="pl">+</span></div><div class="slbl">@lang('site.stat_experience')</div></div>
-          <div class="stat"><div class="snum"><span id="c2">0</span><span class="pl">+</span></div><div class="slbl">@lang('site.stat_publications')</div></div>
-          <div class="stat"><div class="snum"><span id="c3">0</span></div><div class="slbl">@lang('site.stat_monitoring')</div></div>
-          <div class="stat"><div class="snum"><span id="c4">0</span><span class="pl">+</span></div><div class="slbl">@lang('site.stat_partners')</div></div>
-        </div>
-      </div>
-
-      <!-- HERO SIDE: latest news featured card -->
-      @php
-        $latestNews = $news->first();
-        $latestNewsCategory = $latestNews ? $latestNews->categories()->first() : null;
-      @endphp
-      @if($latestNews)
-      <aside class="hero-side" data-aos="fade-left" data-aos-delay="200" aria-label="@lang('site.news')">
-        <a href="{{ $latestNewsCategory ? route('news', [$latestNewsCategory->slug, $latestNews->slug]) : '#' }}" class="hero-feature hero-feature--news">
-          <div class="hf-shine" aria-hidden="true"></div>
-          <div class="hf-top">
-            <span class="hf-label"><span class="hf-dot"></span> @lang('site.news')</span>
-            @if($latestNewsCategory)
-              <span class="hf-badge">{{ $latestNewsCategory->title }}</span>
-            @endif
-          </div>
-          @if($latestNews->issetImage())
-          <div class="hf-cover">
-            <img src="{{ $latestNews->getImageAttribute() }}" alt="{{ $latestNews->getTitleAttribute() }}" loading="lazy">
-          </div>
-          @endif
-          <div class="hf-meta">
-            <h3 class="hf-title">{{ $latestNews->getTitleAttribute() }}</h3>
-            <p class="hf-sub">{{ $latestNews->getCreatedData() }}</p>
-          </div>
-          <div class="hf-foot">
-            <span class="hf-cta">@lang('site.read_more')
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </span>
-          </div>
+        <a href="#news" class="hero-news-btn">
+          <span class="hero-news-btn-ic" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a4 4 0 0 1-4-4V6"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg>
+          </span>
+          <span class="hero-news-btn-txt">@lang('site.hero_to_news')</span>
+          <span class="hero-news-btn-arr" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+          </span>
         </a>
-      </aside>
-      @endif
-
+      </div>
     </div>
   </div>
 </section>

@@ -359,7 +359,7 @@
 @else
 
 <!-- Sahifa topilmadi -->
-<section class="page-hero" aria-labelledby="ph-h">
+<section class="page-hero" aria-labelledby="ph-h" {!! \App\Models\PageHero::style('publication') !!}>
   <div class="container">
     <nav class="breadcrumb">
       <a href="{{ url('/') }}">@lang('site.home_breadcrumb')</a>

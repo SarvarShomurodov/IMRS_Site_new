@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\JournalController;
 use App\Http\Controllers\Admin\PagesController;
 use App\Http\Controllers\Admin\WeatherUSDController;
 use App\Http\Controllers\Admin\SliderController;
+use App\Http\Controllers\Admin\PageHeroController;
 use App\Http\Controllers\Admin\OfferController;
 use App\Http\Controllers\Admin\FilesController;
 use App\Http\Controllers\JournalSite\AuthController as JournalAuthController;
@@ -100,6 +101,11 @@ Route::middleware(['set_locale', 'lang_define'])->group(function () {
             Route::post('/articles/{id}/reject',       [JournalTechnicController::class, 'reject'])->whereNumber('id')->name('article.reject');
             Route::post('/articles/{id}/revision',     [JournalTechnicController::class, 'requestRevision'])->whereNumber('id')->name('article.revision');
             Route::post('/articles/{id}/publish',      [JournalTechnicController::class, 'publish'])->whereNumber('id')->name('article.publish');
+
+            // Nashr qilingan maqolani tahrirlash / o'chirish
+            Route::get('/articles/{id}/edit',          [JournalTechnicController::class, 'editPublished'])->whereNumber('id')->name('article.edit');
+            Route::post('/articles/{id}/edit',         [JournalTechnicController::class, 'updatePublished'])->whereNumber('id')->name('article.update');
+            Route::delete('/articles/{id}',            [JournalTechnicController::class, 'destroy'])->whereNumber('id')->name('article.destroy');
         });
 
         // ── Taqrizchi paneli ──
@@ -282,6 +288,12 @@ Route::middleware(['checkstatus'])->prefix('admin')->name('admin.')->group(funct
     Route::match(['get', 'post'], '/sliders/create', [SliderController::class, 'create']);
     Route::match(['get', 'post'], '/sliders/edit/{id}', [SliderController::class, 'edit']);
     Route::get('/sliders/delete/{id}', [SliderController::class, 'delete']);
+
+    // Page hero backgrounds
+    Route::get('/page-heroes', [PageHeroController::class, 'index']);
+    Route::post('/page-heroes/update/{id}', [PageHeroController::class, 'update']);
+    Route::get('/page-heroes/remove/{id}', [PageHeroController::class, 'removeImage']);
+    Route::get('/page-heroes/remove-video/{id}', [PageHeroController::class, 'removeVideo']);
 
     // Offers
     Route::get('/offers', [OfferController::class, 'index']);

@@ -227,59 +227,7 @@
             </div>
           </div>
 
-          {{-- Title for publication --}}
-          <div class="jsite-field @error('title_publish') has-err @enderror">
-            <label for="title_publish">@lang('journal.tec.publish_title') <span class="req">*</span></label>
-            <div class="jsite-input">
-              <input type="text" id="title_publish" name="title_publish" value="{{ old('title_publish', $article->title_publish ?: $article->title_orig) }}" placeholder="@lang('journal.tec.publish_title_ph')" required>
-            </div>
-            @error('title_publish')<p class="jsite-err">{{ $message }}</p>@enderror
-          </div>
-
-          {{-- Description --}}
-          <div class="jsite-field @error('description') has-err @enderror">
-            <label for="description">@lang('journal.tec.description') <span class="req">*</span></label>
-            <textarea name="description" id="description" class="jsite-textarea" rows="3" minlength="30" maxlength="500" placeholder="@lang('journal.tec.description_ph')" required>{{ old('description', $article->description) }}</textarea>
-            <p class="jsite-field-help">@lang('journal.tec.description_help')</p>
-            @error('description')<p class="jsite-err">{{ $message }}</p>@enderror
-          </div>
-
-          {{-- Publish date + Cover --}}
-          <div class="jsite-row-2">
-            <div class="jsite-field @error('publish_date') has-err @enderror">
-              <label for="publish_date">@lang('journal.tec.publish_date') <span class="req">*</span></label>
-              <div class="jsite-input">
-                <input type="date" id="publish_date" name="publish_date" value="{{ old('publish_date', optional($article->publish_date)->format('Y-m-d') ?: now()->format('Y-m-d')) }}" required>
-              </div>
-              @error('publish_date')<p class="jsite-err">{{ $message }}</p>@enderror
-            </div>
-
-            <div class="jsite-field @error('cover') has-err @enderror">
-              <label for="cover">@lang('journal.tec.cover') <span class="req">*</span></label>
-
-              <div class="jsite-file-drop" id="jsiteCoverDrop">
-                <input type="file" id="cover" name="cover" accept="image/jpeg,image/png" required hidden>
-                <div class="jsite-file-empty" data-empty>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                  <p class="jsite-file-drop-title">@lang('journal.tec.cover_drop')</p>
-                  <p class="jsite-file-drop-sub">@lang('journal.tec.cover_help')</p>
-                </div>
-                <div class="jsite-file-chosen" data-chosen hidden>
-                  <span class="jsite-file-chosen-ico">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                  </span>
-                  <div class="jsite-file-chosen-info">
-                    <strong data-name></strong>
-                    <span data-size></span>
-                  </div>
-                  <button type="button" class="jsite-file-change" data-change>@lang('journal.tec.cover_change')</button>
-                </div>
-                <img class="jsite-file-preview" data-preview hidden>
-              </div>
-
-              @error('cover')<p class="jsite-err">{{ $message }}</p>@enderror
-            </div>
-          </div>
+          @include('client.journal_site.technic._publish-localized-fields', ['article' => $article])
 
           <div class="jsite-cab-form-actions">
             <button type="submit" class="jsite-btn-success">
@@ -299,25 +247,39 @@
       </div>
     @endif
 
-    {{-- D) Already published: show publish info --}}
+    {{-- D) Already published: show publish info (per language) --}}
     @if ($article->isPublished())
+      @php $jLangs = ['uz' => "O'zbekcha", 'ru' => 'Русский', 'en' => 'English']; @endphp
       <section class="jsite-cab-block">
-        <h2 class="jsite-cab-block-title">@lang('journal.tec.publish_section')</h2>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+          <h2 class="jsite-cab-block-title" style="margin:0;">@lang('journal.tec.publish_section')</h2>
+          <a href="{{ route('journal.technic.article.edit', $article->id) }}" class="jsite-btn-ghost-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            <span>@lang('journal.tec.btn_edit')</span>
+          </a>
+        </div>
         <dl class="jsite-cab-meta">
-          <div>
-            <dt>@lang('journal.tec.publish_title')</dt>
-            <dd>{{ $article->title_publish }}</dd>
-          </div>
           <div>
             <dt>@lang('journal.tec.publish_date')</dt>
             <dd>{{ optional($article->publish_date)->format('Y-m-d') }}</dd>
           </div>
-          @if ($article->cover)
-            <div>
-              <dt>@lang('journal.tec.cover')</dt>
-              <dd><img src="{{ asset('storage/'.$article->cover) }}" alt="" style="max-width:240px;border-radius:6px;"></dd>
-            </div>
-          @endif
+          @foreach ($jLangs as $lng => $lngLabel)
+            @php
+              $t = $article->{'title_publish_'.$lng};
+              $d = $article->{'description_'.$lng};
+              $c = $article->{'cover_'.$lng};
+            @endphp
+            @if (filled($t) || filled($d) || filled($c))
+              <div>
+                <dt>{{ $lngLabel }}</dt>
+                <dd>
+                  @if (filled($t))<strong>{{ $t }}</strong>@endif
+                  @if (filled($d))<p style="margin:.35rem 0 0;color:var(--t2);">{{ $d }}</p>@endif
+                  @if (filled($c))<img src="{{ asset('storage/'.$c) }}" alt="" style="max-width:200px;border-radius:6px;margin-top:.5rem;display:block;">@endif
+                </dd>
+              </div>
+            @endif
+          @endforeach
         </dl>
       </section>
     @endif
@@ -379,67 +341,6 @@
         m.hidden = true;
       });
       document.body.style.overflow = '';
-    }
-  });
-
-  /* ── Cover image upload preview ──────────────── */
-  var drop = document.getElementById('jsiteCoverDrop');
-  if (!drop) return;
-  var input = drop.querySelector('input[type=file]');
-  var emptyEl = drop.querySelector('[data-empty]');
-  var chosenEl = drop.querySelector('[data-chosen]');
-  var nameEl = drop.querySelector('[data-name]');
-  var sizeEl = drop.querySelector('[data-size]');
-  var previewEl = drop.querySelector('[data-preview]');
-  var changeBtn = drop.querySelector('[data-change]');
-
-  function fmt(b) {
-    if (b < 1024) return b + ' B';
-    if (b < 1024*1024) return (b/1024).toFixed(1) + ' KB';
-    return (b/1024/1024).toFixed(2) + ' MB';
-  }
-
-  function show(file) {
-    nameEl.textContent = file.name;
-    sizeEl.textContent = fmt(file.size);
-    emptyEl.hidden = true;
-    chosenEl.hidden = false;
-    var reader = new FileReader();
-    reader.onload = function(e){
-      previewEl.src = e.target.result;
-      previewEl.hidden = false;
-    };
-    reader.readAsDataURL(file);
-  }
-  function reset() {
-    input.value = '';
-    emptyEl.hidden = false;
-    chosenEl.hidden = true;
-    previewEl.hidden = true;
-  }
-
-  drop.addEventListener('click', function(e){
-    if (e.target === changeBtn) return;
-    input.click();
-  });
-  changeBtn.addEventListener('click', function(e){
-    e.stopPropagation();
-    reset();
-    input.click();
-  });
-  input.addEventListener('change', function(){
-    if (input.files && input.files[0]) show(input.files[0]);
-  });
-  ['dragenter','dragover'].forEach(function(ev){
-    drop.addEventListener(ev, function(e){ e.preventDefault(); drop.classList.add('is-drag'); });
-  });
-  ['dragleave','drop'].forEach(function(ev){
-    drop.addEventListener(ev, function(e){ e.preventDefault(); drop.classList.remove('is-drag'); });
-  });
-  drop.addEventListener('drop', function(e){
-    if (e.dataTransfer && e.dataTransfer.files.length) {
-      input.files = e.dataTransfer.files;
-      show(e.dataTransfer.files[0]);
     }
   });
 })();
